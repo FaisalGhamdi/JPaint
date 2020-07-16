@@ -21,8 +21,6 @@ import model.interfaces.ICommand;
 
 public class CreateRectangleCommand implements ICommand{
 
-	private Point startPoint;
-	private Point endPoint;
 	private PaintCanvasBase paintCanvas;
 	private int width = 0;
 	private int height = 0;
