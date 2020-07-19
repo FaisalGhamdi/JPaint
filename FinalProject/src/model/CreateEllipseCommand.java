@@ -1,15 +1,15 @@
-package model.persistence;
+package model;
 import model.interfaces.ICommand;
 import view.interfaces.PaintCanvasBase;
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 
-public class CreateTriangleCommand implements ICommand {
-
+public class CreateEllipseCommand implements ICommand {
     private PaintCanvasBase paintCanvas;
     private int width = 0;
     private int height = 0;
 
-    public CreateTriangleCommand(PaintCanvasBase paintCanvas) {
+    public CreateEllipseCommand(PaintCanvasBase paintCanvas) {
         this.paintCanvas = paintCanvas;
     }
     @Override
@@ -20,15 +20,9 @@ public class CreateTriangleCommand implements ICommand {
         int yMax = Math.max(y, pointY);
         width  = (int) (x - pointX);
         height =  (int) (y - pointY);
-        int triangleMidPoint = xMin + (width / 2);
-
-        int[] xCoordinates = {xMin, triangleMidPoint, xMax};
-        //System.out.println("xMin: " + xMin + " triangleMidPoint: " + triangleMidPoint + " xMax: " + xMax);
-        int[] yCoordinates = {yMin, xMax, yMin};
-        //System.out.println("yMin: " + yMin + " xMax: " + xMax + " yMin: " + yMin);
         Graphics2D graphics2d = paintCanvas.getGraphics2D();
         graphics2d.setColor(Color.GREEN);
-        graphics2d.fillPolygon(xCoordinates, yCoordinates, 3);
+        graphics2d.fill(new Ellipse2D.Double(xMin, yMin, width, height));
 
     }
 }

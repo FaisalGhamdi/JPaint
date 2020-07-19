@@ -1,6 +1,7 @@
 package controller;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import model.CreateEllipseCommand;
 import view.interfaces.*;
 import model.ShapeType;
 import model.CreateRectangleCommand;
@@ -26,8 +27,6 @@ public class MouseHandler extends MouseAdapter {
    }
    @Override
    public void mouseReleased (MouseEvent e) {
-		endPoint = new Point(e.getX(), e.getY());
-
 		// get user selection for shape
 	    shapeType = appState.getActiveShapeType();
 	    // check user selection for shape and fill/draw
@@ -39,9 +38,12 @@ public class MouseHandler extends MouseAdapter {
 			// Instantiate Command
 			command = new CreateTriangleCommand(paintCanvas);
 			command.run(e.getX(), e.getY(), (int)startPoint.getX(), (int)startPoint.getY());
-			//System.out.print("Triangle attempt");
-	   } else {
-			System.out.print("else empty - need to draw ");
+	   } else if  (shapeType.toString().equals("ELLIPSE")) {
+			// Instantiate Command
+			command = new CreateEllipseCommand(paintCanvas);
+			command.run(e.getX(), e.getY(), (int) startPoint.getX(), (int) startPoint.getY());
+		} else {
+			System.out.print("You have ran out of shapes!");
 		}
    }
 }
