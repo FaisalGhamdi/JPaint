@@ -18,7 +18,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import model.interfaces.IApplicationState;
 import model.interfaces.ICommand;
-
 public class CreateRectangleCommand implements ICommand{
 
 	private PaintCanvasBase paintCanvas;

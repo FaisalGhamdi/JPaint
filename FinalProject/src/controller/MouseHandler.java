@@ -7,6 +7,7 @@ import model.CreateRectangleCommand;
 import java.awt.Point;
 import model.interfaces.IApplicationState;
 import model.interfaces.ICommand;
+import model.persistence.CreateTriangleCommand;
 
 public class MouseHandler extends MouseAdapter {
 	public Point startPoint;
@@ -21,15 +22,26 @@ public class MouseHandler extends MouseAdapter {
 	}
    @Override
    public void mousePressed (MouseEvent e) {
-	   startPoint = new Point(e.getX(), e.getY()); 
+		startPoint = new Point(e.getX(), e.getY());
    }
    @Override
-   public void mouseReleased (MouseEvent e) {   
-	    shapeType = appState.getActiveShapeType();  
+   public void mouseReleased (MouseEvent e) {
+		endPoint = new Point(e.getX(), e.getY());
+
+		// get user selection for shape
+	    shapeType = appState.getActiveShapeType();
+	    // check user selection for shape and fill/draw
 	    if(shapeType.toString().equals("RECTANGLE")) {
 	       // Instantiate Command
 	 	   command = new CreateRectangleCommand(paintCanvas);
 		   command.run(e.getX(), e.getY(), (int)startPoint.getX(), (int)startPoint.getY());
-       }
+       } else if  (shapeType.toString().equals("TRIANGLE")) {
+			// Instantiate Command
+			command = new CreateTriangleCommand(paintCanvas);
+			command.run(e.getX(), e.getY(), (int)startPoint.getX(), (int)startPoint.getY());
+			//System.out.print("Triangle attempt");
+	   } else {
+			System.out.print("else empty - need to draw ");
+		}
    }
 }
