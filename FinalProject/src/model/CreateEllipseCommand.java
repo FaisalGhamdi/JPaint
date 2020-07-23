@@ -23,11 +23,13 @@ public class CreateEllipseCommand implements ICommand {
         // get user selection
         shadingType = appState.getActiveShapeShadingType();
         primaryShapeColor = appState.getActivePrimaryColor();
+        seconderyShapeColor =  appState.getActiveSecondaryColor();
         width  = (int) (x - pointX);
         height =  (int) (y - pointY);
         // used to help in converting String to Color
         StyleSheet s = new StyleSheet();
-        Color color = s.stringToColor(primaryShapeColor.toString());
+        Color primaryColor = s.stringToColor(primaryShapeColor.toString());
+        Color secondaryColor = s.stringToColor(seconderyShapeColor.toString());
 
         int xMin = Math.min(x, pointX);
         int xMax = Math.max(x, pointX);
@@ -36,7 +38,22 @@ public class CreateEllipseCommand implements ICommand {
         width  = (int) (x - pointX);
         height =  (int) (y - pointY);
         Graphics2D graphics2d = paintCanvas.getGraphics2D();
-        graphics2d.setColor(color);
-        graphics2d.fill(new Ellipse2D.Double(xMin, yMin, width, height));
+
+        // user selection for shade type
+        if (shadingType.toString().equals("OUTLINE")) {
+            graphics2d.setColor(primaryColor);
+            graphics2d.draw(new Ellipse2D.Double(xMin, yMin, width, height));
+        } else if (shadingType.toString().equals("FILLED_IN")) {
+            graphics2d.setColor(primaryColor);
+            graphics2d.fill(new Ellipse2D.Double(xMin, yMin, width, height));
+        } else if (shadingType.toString().equals("OUTLINE_AND_FILLED_IN")) {
+            // filled in
+            graphics2d.setColor(primaryColor);
+            graphics2d.fill(new Ellipse2D.Double(xMin, yMin, width, height));
+            // outline
+            graphics2d.setColor(secondaryColor);
+            graphics2d.draw(new Ellipse2D.Double(xMin, yMin, width, height));
+        }
+
     }
 }
